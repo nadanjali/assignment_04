@@ -63,7 +63,6 @@ def classify_pay(hours: float, rate: float) -> str:
         return "overtime"
     else:
         return "regular"
-    
 
 
 def add_gross_pay(payroll: pd.DataFrame) -> pd.DataFrame:
@@ -77,7 +76,6 @@ def add_gross_pay(payroll: pd.DataFrame) -> pd.DataFrame:
     out = payroll.copy()
     out["gross_pay"] = out.apply(lambda row: calc_gross_pay(row["hours_worked"], row["hourly_rate_usd"]), axis=1)
     return out
-    
 
 
 def add_pay_type(payroll: pd.DataFrame) -> pd.DataFrame:
@@ -85,7 +83,6 @@ def add_pay_type(payroll: pd.DataFrame) -> pd.DataFrame:
     out = payroll.copy()
     out["pay_type"] = out.apply(lambda row: classify_pay(row["hours_worked"], row["hourly_rate_usd"]), axis=1)
     return out
-    
 
 
 def build_payroll(timesheet: pd.DataFrame, employees: pd.DataFrame) -> pd.DataFrame:
@@ -102,7 +99,6 @@ def build_payroll(timesheet: pd.DataFrame, employees: pd.DataFrame) -> pd.DataFr
     payroll_with_gross_pay = add_gross_pay(merged_payroll)
     final_payroll = add_pay_type(payroll_with_gross_pay)
     return final_payroll
-    
 
 
 def payroll_export(payroll: pd.DataFrame) -> pd.DataFrame:
@@ -125,4 +121,3 @@ def payroll_export(payroll: pd.DataFrame) -> pd.DataFrame:
     export = export[["payroll_date", "employee_id", "hours_worked", "hourly_rate_usd", "gross_pay"]]
     export.columns = ["payrolldate", "employeeid", "hours", "rate", "total"]
     return export
-    
