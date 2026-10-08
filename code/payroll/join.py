@@ -47,4 +47,4 @@ def merge_employees(timesheet: pd.DataFrame, employees: pd.DataFrame) -> pd.Data
     """
     out = pd.merge(timesheet, employees, how="left", on="employee_id")
     return out
-    pass
+    
