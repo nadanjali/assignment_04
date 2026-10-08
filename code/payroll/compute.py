@@ -44,7 +44,6 @@ def calc_gross_pay(hours: float, rate: float) -> float:
         overtime_pay = overtime_hours * rate * OVERTIME_MULTIPLIER
         gross_pay = regular_pay + overtime_pay
     return round(gross_pay, 2)
-    
 
 
 def classify_pay(hours: float, rate: float) -> str:
@@ -74,14 +73,16 @@ def add_gross_pay(payroll: pd.DataFrame) -> pd.DataFrame:
         lambda row: calc_gross_pay(row["hours_worked"], row["hourly_rate_usd"])
     """
     out = payroll.copy()
-    out["gross_pay"] = out.apply(lambda row: calc_gross_pay(row["hours_worked"], row["hourly_rate_usd"]), axis=1)
+    out["gross_pay"] = out.apply(lambda row: calc_gross_pay(row["hours_worked"],
+                                row["hourly_rate_usd"]), axis=1)
     return out
 
 
 def add_pay_type(payroll: pd.DataFrame) -> pd.DataFrame:
     """Return a copy with one new column, `pay_type`: `classify_pay` for every row."""
     out = payroll.copy()
-    out["pay_type"] = out.apply(lambda row: classify_pay(row["hours_worked"], row["hourly_rate_usd"]), axis=1)
+    out["pay_type"] = out.apply(lambda row: classify_pay(row["hours_worked"],
+                                row["hourly_rate_usd"]), axis=1)
     return out
 
 
@@ -118,6 +119,7 @@ def payroll_export(payroll: pd.DataFrame) -> pd.DataFrame:
     view of it shaped for someone else's system.
     """
     export = payroll[payroll["pay_type"] != "unmatched"].copy()
-    export = export[["payroll_date", "employee_id", "hours_worked", "hourly_rate_usd", "gross_pay"]]
+    export = export[["payroll_date", "employee_id", "hours_worked", "hourly_rate_usd",
+    "gross_pay"]]
     export.columns = ["payrolldate", "employeeid", "hours", "rate", "total"]
     return export
