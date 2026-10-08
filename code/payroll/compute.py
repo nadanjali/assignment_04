@@ -34,7 +34,16 @@ def calc_gross_pay(hours: float, rate: float) -> float:
         calc_gross_pay(0.75, 17.0)   ->  12.75
         calc_gross_pay(20.0, float("nan"))  ->  0.0
     """
-    # TODO: your code here
+    if pd.isna(rate):
+        return 0.0
+    if hours <= OVERTIME_THRESHOLD:
+        gross_pay = hours * rate
+    else:
+        regular_pay = OVERTIME_THRESHOLD * rate
+        overtime_hours = hours - OVERTIME_THRESHOLD
+        overtime_pay = overtime_hours * rate * OVERTIME_MULTIPLIER
+        gross_pay = regular_pay + overtime_pay
+    return round(gross_pay, 2)
     pass
 
 
@@ -48,7 +57,12 @@ def classify_pay(hours: float, rate: float) -> str:
     Check for unmatched *first*: an unknown employee with 45 hours is still
     unmatched, not overtime.
     """
-    # TODO: your code here
+    if pd.isna(rate):
+        return "unmatched"
+    elif hours > OVERTIME_THRESHOLD:
+        return "overtime"
+    else:
+        return "regular"
     pass
 
 
@@ -60,13 +74,17 @@ def add_gross_pay(payroll: pd.DataFrame) -> pd.DataFrame:
 
         lambda row: calc_gross_pay(row["hours_worked"], row["hourly_rate_usd"])
     """
-    # TODO: your code here
+    out = payroll.copy()
+    out["gross_pay"] = out.apply(lambda row: calc_gross_pay(row["hours_worked"], row["hourly_rate_usd"]), axis=1)
+    return out
     pass
 
 
 def add_pay_type(payroll: pd.DataFrame) -> pd.DataFrame:
     """Return a copy with one new column, `pay_type`: `classify_pay` for every row."""
-    # TODO: your code here
+    out = payroll.copy()
+    out["pay_type"] = out.apply(lambda row: classify_pay(row["hours_worked"], row["hourly_rate_usd"]), axis=1)
+    return out
     pass
 
 
@@ -78,7 +96,12 @@ def build_payroll(timesheet: pd.DataFrame, employees: pd.DataFrame) -> pd.DataFr
     pipeline computes (`hours_worked`, `hourly_rate_usd`, `gross_pay`, `pay_type`)
     and the roster's columns — one row per timesheet row.
     """
-    # TODO: your code here
+    cleaned_timesheet = add_hours_worked(timesheet)
+    cleaned_employees = add_hourly_rate(employees)
+    merged_payroll = merge_employees(cleaned_timesheet, cleaned_employees)
+    payroll_with_gross_pay = add_gross_pay(merged_payroll)
+    final_payroll = add_pay_type(payroll_with_gross_pay)
+    return final_payroll
     pass
 
 
@@ -98,5 +121,8 @@ def payroll_export(payroll: pd.DataFrame) -> pd.DataFrame:
     pipeline's columns. The pipeline table keeps its lineage; the export is a
     view of it shaped for someone else's system.
     """
-    # TODO: your code here
+    export = payroll[payroll["pay_type"] != "unmatched"].copy()
+    export = export[["payroll_date", "employee_id", "hours_worked", "hourly_rate_usd", "gross_pay"]]
+    export.columns = ["payrolldate", "employeeid", "hours", "rate", "total"]
+    return export
     pass
