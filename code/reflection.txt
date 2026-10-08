@@ -1,6 +1,1 @@
-Write your reflection here.
-
-See reflection.md for what makes a good reflection — be specific, use the
-terminology from this assignment (lineage, grain, element function, Series.apply,
-row apply / axis=1, left merge, NaN, coerce, copy-add-return, boolean index,
-export), and make it actionable.
+This assignment taught me how to use apply functions on dataframes. Specifically with row apply givin me a new tool to let me change certain variables within a specific row only. It also made me implement NaN functions with showed how to deal with data that was not there or equal to none and ways to convert the root of it so my datatframe was still workable. Additionally, understanding the merges to create a larger dataframe to include all the information that is asked during the payroll app where the file is uploaded for multiple weeks.
