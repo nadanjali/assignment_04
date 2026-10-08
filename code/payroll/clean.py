@@ -48,15 +48,6 @@ def parse_hours(value) -> float:
     - The mistake people make: forgetting the `/ 60`. `"45m"` is three quarters
       of an hour, not 45 hours, and `test_parse_hours` will tell you.
     """
-    # if not isinstance(value, str):
-    #     if pd.isna(value):
-    #         return 0.0
-    #     else:
-    #         return float(value)
-    # value = value.strip()
-    # if not value:
-    #     return 0.0
-    # pass
     if not isinstance(value, str):
         if pd.isna(value):
             return 0.0
@@ -109,15 +100,6 @@ def clean_currency(value) -> float:
     - You wrote this function in Assignment 02. It is the same function. That
       is not an accident — cleaning currency is something every pipeline does.
     """
-  
-    # if value is None:
-    #     return 0.0
-    # try:
-    #     return float(value.replace("$", "").replace(",", "").strip())
-    # except ValueError:
-    #     return 0.0
-    # pass
-
     if not isinstance(value, str):
         if pd.isna(value):
             return 0.0
