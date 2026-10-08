@@ -40,7 +40,6 @@ Test it: pytest tests/test_pipeline.py -k app
 # yourself writing a loop or an apply here, that logic belongs in the package.
 
 import streamlit as st
-import pandas as pd
 from payroll import load_employees, load_timesheet, build_payroll, payroll_export
 
 st.title("Salt City Coffee — Weekly Payroll")

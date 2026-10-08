@@ -76,7 +76,7 @@ def parse_hours(value) -> float:
             return 0.0
 
     return hours
-    pass
+    
     
 
 
@@ -100,6 +100,7 @@ def clean_currency(value) -> float:
     - You wrote this function in Assignment 02. It is the same function. That
       is not an accident — cleaning currency is something every pipeline does.
     """
+
     if not isinstance(value, str):
         if pd.isna(value):
             return 0.0
@@ -131,7 +132,7 @@ def add_hours_worked(timesheet: pd.DataFrame) -> pd.DataFrame:
     out = timesheet.copy()
     out["hours_worked"] = out["hours"].apply(parse_hours)
     return out
-    pass
+    
 
 
 def add_hourly_rate(employees: pd.DataFrame) -> pd.DataFrame:
