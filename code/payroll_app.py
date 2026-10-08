@@ -62,7 +62,9 @@ if upload is not None:
     c3.metric("Total gross pay", f"${payroll['gross_pay'].sum():,.2f}")
     c4.metric("Overtime weeks", len(payroll[payroll["pay_type"] == "overtime"]))
 
-    unmatched = sorted(payroll.loc[payroll["pay_type"] == "unmatched", "employee_id"].unique())
+    unmatched = sorted(
+        payroll.loc[payroll["pay_type"] == "unmatched", "employee_id"].unique()
+        )
     if unmatched:
         st.warning(f"Unmatched employee IDs: {', '.join(unmatched)}")
     else:
